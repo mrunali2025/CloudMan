@@ -1,0 +1,96 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: cloudman-mongodb
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    container_name: cloudman-redis
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api
+    container_name: cloudman-api
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      DATABASE_URL: mongodb://mongodb:27017/cloudman
+      REDIS_URL: redis://redis:6379
+      CLOUDMAN_SECRET: ${CLOUDMAN_SECRET}
+    ports:
+      - "127.0.0.1:4000:4000"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker
+    container_name: cloudman-worker
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      DATABASE_URL: mongodb://mongodb:27017/cloudman
+      REDIS_URL: redis://redis:6379
+      CLOUDMAN_SECRET: ${CLOUDMAN_SECRET}
+      CLOUDMAN_TOFU_AUTOINSTALL: "0"
+      CLOUDMAN_REMOTE_STATE: "1"
+    volumes:
+      - cloudman_workspaces:/var/cloudman/workspaces
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web
+    container_name: cloudman-web
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      PORT: 3001
+    ports:
+      - "127.0.0.1:3001:3001"
+    depends_on:
+      - api
+
+volumes:
+  mongo_data:
+  redis_data:
+  cloudman_workspaces:

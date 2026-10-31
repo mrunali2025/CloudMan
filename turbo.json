@@ -1,0 +1,54 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"ui": "tui",
+	"globalEnv": [
+		"NODE_ENV",
+		"DATABASE_URL",
+		"REDIS_URL",
+		"BETTER_AUTH_SECRET",
+		"BETTER_AUTH_URL",
+		"CORS_ORIGIN",
+		"PORT",
+		"AWS_REGION",
+		"AWS_ACCESS_KEY_ID",
+		"AWS_SECRET_ACCESS_KEY",
+		"CLOUDMAN_SECRET",
+		"CLOUDMAN_WORKER_MOCK",
+		"CLOUDMAN_TOFU_AUTOINSTALL",
+		"CLOUDMAN_WORKSPACE_ROOT",
+		"CLOUDMAN_REMOTE_STATE",
+		"TOFU_PATH",
+		"GOOGLE_CLIENT_ID",
+		"GOOGLE_CLIENT_SECRET",
+		"OPENROUTER_API_KEY",
+		"CLOUDMAN_LLM_GENERATION",
+		"ALLOW_ANON",
+		"NEXT_PUBLIC_API_URL",
+		"NEXT_PUBLIC_GOOGLE_OAUTH_ENABLED",
+		"SKIP_ENV_VALIDATION",
+		"VERCEL_URL",
+		"VERCEL_ENV",
+		"VERCEL_PROJECT_PRODUCTION_URL"
+	],
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULT$", ".env*"],
+			"outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+		},
+		"check-types": {
+			"dependsOn": ["^check-types"]
+		},
+		"start": {
+			"cache": false,
+			"persistent": true
+		},
+		"test": {
+			"dependsOn": ["^build"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true
+		}
+	}
+}

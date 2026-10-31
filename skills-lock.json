@@ -1,0 +1,41 @@
+{
+	"version": 1,
+	"skills": {
+		"code-review": {
+			"source": "vercel-labs/open-agents",
+			"sourceType": "github",
+			"skillPath": ".agents/skills/code-review/SKILL.md",
+			"computedHash": "76d2970a05d902683713a6e45b7968812030d39ad98f22c63aa09317067906da"
+		},
+		"owasp-security": {
+			"source": "agamm/claude-code-owasp",
+			"sourceType": "github",
+			"skillPath": ".claude/skills/owasp-security/SKILL.md",
+			"computedHash": "667e3a3b662787d8201765488c5146a5a4c09039af60f07fb62ca25dd3936e2e"
+		},
+		"turborepo": {
+			"source": "vercel/turborepo",
+			"sourceType": "github",
+			"skillPath": "skills/turborepo/SKILL.md",
+			"computedHash": "9681d8dfeb5e6cdff767f1bcaba5d7ac55732a9d6c02ee120f44229f8ec25e7e"
+		},
+		"vercel-composition-patterns": {
+			"source": "vercel-labs/agent-skills",
+			"sourceType": "github",
+			"skillPath": "skills/composition-patterns/SKILL.md",
+			"computedHash": "10eb4ec94577b79ae98c63ce3e7f35f8a6a06436a4011bff083b397de6960eeb"
+		},
+		"vercel-react-best-practices": {
+			"source": "vercel-labs/agent-skills",
+			"sourceType": "github",
+			"skillPath": "skills/react-best-practices/SKILL.md",
+			"computedHash": "6b526d013e28073246a36f99b529bc43745d30832ecfa8217b359c34f260ca6b"
+		},
+		"web-design-guidelines": {
+			"source": "vercel-labs/agent-skills",
+			"sourceType": "github",
+			"skillPath": "skills/web-design-guidelines/SKILL.md",
+			"computedHash": "d8e7d3afe37dcc8a97b99ffb5afdb4d0919ae0092ea8b68f44eb201f035e33ac"
+		}
+	}
+}
